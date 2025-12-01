@@ -1,0 +1,26 @@
+{
+  "name": "create-hyper-backend",
+  "version": "1.0.1",
+  "description": "A fully customizable, production-ready Node.js backend starter template built with TypeScript, Prisma, PostgreSQL, GraphQL, and Socket.IO. This template follows a scalable microservice architecture, and includes pre-configured modules for email and SMS notifications, background jobs, cron tasks, and real-world API development.",
+  "keywords": [
+    "nodejs",
+    "typescript",
+    "prisma",
+    "postgres",
+    "graphQL",
+    "socket.io",
+    "email",
+    "sms",
+    "microservice"
+  ],
+  "license": "ISC",
+  "bin": {
+    "create-myapp": "bin/index.js"
+  },
+  "type": "module",
+  "dependencies": {
+    "inquirer": "^9.0.0",
+    "chalk": "^5.0.0",
+    "fs-extra": "^11.0.0"
+  }
+}

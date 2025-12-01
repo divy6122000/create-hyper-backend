@@ -1,0 +1,1 @@
+nodejs-typescript-prisma-postgres-graphQL-socket.io-email_sms_microservice-template

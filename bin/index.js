@@ -235,6 +235,7 @@ async function updatePackageJson(filePath, answers) {
             pkg.scripts["dev:email"] = "tsx watch src/micro-services/email/index.ts";
         }
         if (answers.cronMicroservice) {
+            pkg.dependencies["node-cron"] = "^4.2.1";
             pkg.scripts["dev:cron"] = "tsx watch src/micro-services/cron/index.ts";
         }
 

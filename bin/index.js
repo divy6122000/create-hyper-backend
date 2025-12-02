@@ -6,6 +6,7 @@ import path from "path";
 import { fileURLToPath } from "url";
 import chalk from "chalk";
 import { execSync } from "child_process";
+import { GITIGNORE } from "./constant.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -97,6 +98,9 @@ async function createProject(answers) {
 
         // 1. Copy Base Template (Unified Structure)
         await fs.copy(path.join(TEMPLATE_DIR, "base"), projectPath);
+
+        // create a .gitignore file
+        await fs.writeFileSync(path.join(projectPath, ".gitignore"), GITIGNORE);
 
         // 2. Handle Features
         await handleFeatures(projectPath, answers);

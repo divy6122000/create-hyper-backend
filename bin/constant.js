@@ -1,5 +1,6 @@
-export const GITIGNORE = `
-node_modules/
+import { fileURLToPath } from "url";
+import path from "path";
+export const GITIGNORE = `node_modules/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
@@ -53,3 +54,11 @@ docker-data/
 docker/db-data/
 
 `;
+
+
+export const getTemplateDir = ()=>{
+    const __filename = fileURLToPath(import.meta.url);
+    const __dirname = path.dirname(__filename);
+    const TEMPLATE_DIR = path.join(__dirname, "../templates");
+    return TEMPLATE_DIR;
+}

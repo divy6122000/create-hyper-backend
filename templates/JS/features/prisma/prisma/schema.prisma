@@ -1,0 +1,24 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "mysql"
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  name      String?
+  password  String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// Create your first migration to set up the database tables:
+// $ npx prisma migrate dev --name init //This command creates the database tables based on your schema.
+
+
+// generate the Prisma Client:
+// $ npx prisma generate

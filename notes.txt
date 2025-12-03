@@ -1,1 +1,49 @@
 nodejs-typescript-prisma-postgres-graphQL-socket.io-email_sms_microservice-template
+
+my-app/
+├── .env.example                  # Template for env vars (e.g., DATABASE_URL)
+├── .gitignore                    # Standard Node ignores
+├── .env                          # Local secrets (gitignored)
+├── Dockerfile                    # For containerization
+├── docker-compose.yml            # For local MySQL + app stack
+├── package.json                  # Deps: express, prisma, @prisma/client, etc.
+├── package-lock.json             # Lockfile
+├── prisma/                       # Prisma-specific
+│   ├── schema.prisma             # Models (MySQL provider)
+│   ├── migrations/               # Auto-generated migration files
+│   └── seed.ts                   # Optional data seeder
+├── src/                          # Core app source
+│   ├── config/                   # App configurations
+│   │   ├── database.js           # Prisma client init + MySQL connection
+│   │   ├── logger.js             # Winston or Pino setup
+│   │   └── index.js              # Export all configs
+│   ├── controllers/              # Handle HTTP requests/responses
+│   │   ├── userController.js     # e.g., getUsers, createUser
+│   │   └── orderController.js    # e.g., createOrder
+│   ├── middleware/               # Reusable middleware
+│   │   ├── auth.js               # JWT/Prisma session validation
+│   │   ├── errorHandler.js       # Global error catcher
+│   │   └── validation.js         # Zod/Joi for request body validation
+│   ├── routes/                   # Express route definitions
+│   │   ├── userRoutes.js         # /api/users/*
+│   │   └── index.js              # Mount all routes (app.use('/api', routes))
+│   ├── services/                 # Business logic (orchestrates repo)
+│   │   ├── userService.js        # e.g., createUserWithValidation
+│   │   └── emailService.js       # External integrations (e.g., Nodemailer)
+│   ├── repositories/             # Data access layer (Prisma queries)
+│   │   ├── userRepository.js     # prisma.user.findMany(), etc.
+│   │   └── baseRepository.js     # Shared Prisma utils
+│   ├── utils/                    # Helpers
+│   │   ├── constants.js          # Enums, error codes
+│   │   └── helpers.js            # Date formatting, etc.
+│   ├── app.js                    # Express app setup (middleware, routes)
+│   └── server.js                 # Entry: app.listen(PORT)
+├── tests/                        # Unit/integration tests
+│   ├── unit/                     # Controllers/services
+│   │   └── userService.test.js
+│   └── integration/              # E2E with Supertest + test DB
+│       └── api.test.js
+├── .eslintrc.js                  # Linting rules
+├── .prettierrc                   # Formatting
+├── tsconfig.json                 # If adding TS later (optional)
+└── README.md                     # Setup, run instructions

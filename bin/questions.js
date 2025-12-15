@@ -27,14 +27,7 @@ export async function askQuestions() {
             type: "list",
             name: "mongoORM",
             message: "MongoDB detected — choose ORM:",
-            choices: ["Mongoose", "Prisma"],
-            when: (a) => a.database === "MongoDB"
-        },
-        {
-            type: "confirm",
-            name: "graphql",
-            message: "Would you like to use GraphQL?",
-            default: false
+            choices: ["Prisma", "Drizzle", "None"],
         },
         {
             type: "confirm",
@@ -44,23 +37,15 @@ export async function askQuestions() {
         },
         {
             type: "confirm",
-            name: "microservice",
-            message: "Would you like to use microservices?",
+            name: "graphql",
+            message: "Would you like to use GraphQL?",
             default: false
         },
         {
             type: "confirm",
-            name: "emailMicroservice",
-            message: "Auto-setup email microservice?",
-            default: true,
-            when: (a) => a.microservice === true
-        },
-        {
-            type: "confirm",
-            name: "cronMicroservice",
-            message: "Auto-setup CronJob microservice?",
-            default: true,
-            when: (a) => a.microservice === true
+            name: "microservice",
+            message: "Would you like to use microservices?",
+            default: false
         }
     ]);
     return answers;

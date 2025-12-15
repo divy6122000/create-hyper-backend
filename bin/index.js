@@ -5,7 +5,7 @@ import path from "path";
 import chalk from "chalk";
 import { getTemplateDir, GITIGNORE } from "./constant.js";
 import { askQuestions } from "./questions.js";
-import { handleFeatures } from "./features.js";
+import { handleFeatures, selectTemplate } from "./features.js";
 import { updatePackageJson } from "./updatePackages.js";
 
 const TEMPLATE_DIR = getTemplateDir();
@@ -24,11 +24,14 @@ async function createProject(answers) {
         
 
         // 1. Copy Base Template (Unified Structure)
-        if (answers.typescript) {
-            await fs.copy(path.join(TEMPLATE_DIR, "TS/base"), projectPath);
-        } else {
-            await fs.copy(path.join(TEMPLATE_DIR, "JS/base"), projectPath);
-        }
+        // if (answers.typescript) {
+        //     await fs.copy(path.join(TEMPLATE_DIR, "TS/base"), projectPath);
+        // } else {
+        //     await fs.copy(path.join(TEMPLATE_DIR, "JS/base"), projectPath);
+        // }
+
+        const template = selectTemplate(answers);
+        await fs.copy(path.join(TEMPLATE_DIR, template), projectPath);
         
         // create a .gitignore file
         fs.writeFileSync(path.join(projectPath, ".gitignore"), GITIGNORE);

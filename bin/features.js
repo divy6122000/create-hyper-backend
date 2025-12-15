@@ -79,7 +79,7 @@ export async function handleFeatures(projectPath, answers) {
             provider = "mysql";
 
             await fs.ensureDir(path.join(srcPath, answers.typescript ? "TS/features/prisma/src/config/prisma.ts" : "JS/features/prisma/src/config/prisma.js"));
-           const test = await injectCode(path.join(srcPath, answers.typescript ? "config/prisma.ts" : "config/prisma.js"), {
+            const test = await injectCode(path.join(srcPath, answers.typescript ? "config/prisma.ts" : "config/prisma.js"), {
                 import: `import "dotenv/config";\nimport { PrismaMariaDb } from '@prisma/adapter-mariadb';\nimport { PrismaClient } from '../../prisma/generated/prisma/client.${answers.typescript ? "js" : "ts"}';`,
                 init: `const adapter = new PrismaMariaDb({
                             host: process.env.DATABASE_HOST,
@@ -109,3 +109,39 @@ export async function handleFeatures(projectPath, answers) {
         }
     }
 }
+
+export const selectTemplate = (answers) => {
+    let template;
+    // ---------------------------
+    // MongoDB
+    // ---------------------------
+    if (answers.database === "MongoDB") {
+        if (!answers.typescript) {
+            if (answers.mongoORM === "None") template = "js-mongo-mongoose";
+            else if (answers.mongoORM === "Prisma") template = "js-mongo-prisma";
+            else if (answers.mongoORM === "Drizzle") template = "js-mongo-drizzle";
+        } else {
+            if (answers.mongoORM === "None") template = "ts-mongo-mongoose";
+            else if (answers.mongoORM === "Prisma") template = "ts-mongo-prisma";
+            else if (answers.mongoORM === "Drizzle") template = "ts-mongo-drizzle";
+        }
+    }
+
+    // ---------------------------
+    // MySQL
+    // ---------------------------
+    if (answers.database === "MySQL") {
+        if (!answers.typescript) template = "js-mysql";
+        else template = "ts-mysql";
+    }
+
+    // ---------------------------
+    // PostgreSQL
+    // ---------------------------
+    if (answers.database === "PostgreSQL") {
+        if (!answers.typescript) template = "js-postgres";
+        else template = "ts-postgres";
+    }
+
+    return template;
+};

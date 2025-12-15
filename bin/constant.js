@@ -52,7 +52,7 @@ uploads/
 public/uploads/
 docker-data/
 docker/db-data/
-/src/logs
+/src/logs/
 `;
 
 

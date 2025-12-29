@@ -67,34 +67,35 @@ export async function handleFeatures(projectPath, answers) {
     }
 
     // Prisma
-    if (answers.database !== "MongoDB" || answers.mongoORM === "Prisma") {
-        await fs.copy(path.join(TEMPLATE_DIR, answers.typescript ? "TS/features/prisma" : "JS/features/prisma"), projectPath);
+    
+    // if (answers.database !== "MongoDB" || answers.mongoORM === "Prisma") {
+    //     await fs.copy(path.join(TEMPLATE_DIR, answers.typescript ? "TS/features/prisma" : "JS/features/prisma"), projectPath);
 
-        // Update schema.prisma provider
-        const schemaPath = path.join(projectPath, "prisma/schema.prisma");
-        let schemaContent = await fs.readFile(schemaPath, "utf-8");
+    //     // Update schema.prisma provider
+    //     const schemaPath = path.join(projectPath, "prisma/schema.prisma");
+    //     let schemaContent = await fs.readFile(schemaPath, "utf-8");
 
-        let provider = "postgresql";
-        if (answers.database === "MySQL") {
-            provider = "mysql";
+    //     let provider = "postgresql";
+    //     if (answers.database === "MySQL") {
+    //         provider = "mysql";
 
-            await fs.ensureDir(path.join(srcPath, answers.typescript ? "TS/features/prisma/src/config/prisma.ts" : "JS/features/prisma/src/config/prisma.js"));
-            const test = await injectCode(path.join(srcPath, answers.typescript ? "config/prisma.ts" : "config/prisma.js"), {
-                import: `import "dotenv/config";\nimport { PrismaMariaDb } from '@prisma/adapter-mariadb';\nimport { PrismaClient } from '../../prisma/generated/prisma/client.${answers.typescript ? "js" : "ts"}';`,
-                init: `const adapter = new PrismaMariaDb({
-                            host: process.env.DATABASE_HOST,
-                            user: process.env.DATABASE_USER,
-                            password: process.env.DATABASE_PASSWORD,
-                            database: process.env.DATABASE_NAME,
-                            connectionLimit: 5
-                        }); \n\nexport const prisma = new PrismaClient({ adapter, log: process.env.NODE_ENV === "development" ? ['query', 'info', 'warn', 'error'] : ['error'] })`
-            });
-        }
-        if (answers.database === "MongoDB") provider = "mongodb";
+    //         await fs.ensureDir(path.join(srcPath, answers.typescript ? "TS/features/prisma/src/config/prisma.ts" : "JS/features/prisma/src/config/prisma.js"));
+    //         const test = await injectCode(path.join(srcPath, answers.typescript ? "config/prisma.ts" : "config/prisma.js"), {
+    //             import: `import "dotenv/config";\nimport { PrismaMariaDb } from '@prisma/adapter-mariadb';\nimport { PrismaClient } from '../../prisma/generated/prisma/client.${answers.typescript ? "js" : "ts"}';`,
+    //             init: `const adapter = new PrismaMariaDb({
+    //                         host: process.env.DATABASE_HOST,
+    //                         user: process.env.DATABASE_USER,
+    //                         password: process.env.DATABASE_PASSWORD,
+    //                         database: process.env.DATABASE_NAME,
+    //                         connectionLimit: 5
+    //                     }); \n\nexport const prisma = new PrismaClient({ adapter, log: process.env.NODE_ENV === "development" ? ['query', 'info', 'warn', 'error'] : ['error'] })`
+    //         });
+    //     }
+    //     if (answers.database === "MongoDB") provider = "mongodb";
 
-        schemaContent = schemaContent.replace('provider = "postgresql"', `provider = "${provider}"`);
-        await fs.writeFile(schemaPath, schemaContent);
-    }
+    //     schemaContent = schemaContent.replace('provider = "postgresql"', `provider = "${provider}"`);
+    //     await fs.writeFile(schemaPath, schemaContent);
+    // }
 
     // Microservices
     if (answers.microservice) {

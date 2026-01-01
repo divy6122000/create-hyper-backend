@@ -30,23 +30,24 @@ export async function handleFeatures(projectPath, answers) {
     if (answers.graphql && answers.typescript) {
         await fs.copy(path.join(TEMPLATE_DIR, "TS/features/graphql/src"), srcPath);
         await injectCode(path.join(srcPath, "app.ts"), {
-            import: `import { createApolloServer } from "./graphql/index.ts";\nimport { expressMiddleware } from "@apollo/server/express4";`,
-            middleware: `const apolloServer = await createApolloServer();\napp.use("/graphql", cors(), express.json(), expressMiddleware(apolloServer));`
+            import: `import { createApolloServer } from "./graphql/index.ts";`,
+            middleware: `const apolloServer = await createApolloServer();\napp.use("/graphql", apolloServer);`
         });
     } else if (answers.graphql && !answers.typescript) {
         await fs.copy(path.join(TEMPLATE_DIR, "JS/features/graphql/src"), srcPath);
         await injectCode(path.join(srcPath, "app.js"), {
-            import: `import { createApolloServer } from "./graphql/index.js";\nimport { expressMiddleware } from "@apollo/server/express4";`,
-            middleware: `const apolloServer = await createApolloServer();\napp.use("/graphql", cors(), express.json(), expressMiddleware(apolloServer));`
+            import: `import { createApolloServer } from "./graphql/index.js";`,
+            middleware: `const apolloServer = await createApolloServer();\napp.use("/graphql", apolloServer);`
         });
     }
 
     // Socket.io
     if (answers.socket && answers.typescript) {
+        console.log("Socket.io11");
         await fs.copy(path.join(TEMPLATE_DIR, "TS/features/socket/src"), srcPath);
         await injectCode(path.join(srcPath, "index.ts"), {
             import: `import { initSocket } from "./socket/index.js";\nimport { createServer } from "http";`,
-            init: `const httpServer = createServer(app);\ninitSocket(httpServer);\n// Override app.listen with httpServer.listen`
+            init: `const httpServer = createServer(app);\ninitSocket(httpServer);\n`
         });
 
         // We need to change app.listen to httpServer.listen in index.ts
@@ -54,10 +55,11 @@ export async function handleFeatures(projectPath, answers) {
         indexContent = indexContent.replace("app.listen(PORT", "httpServer.listen(PORT");
         await fs.writeFile(path.join(srcPath, "index.ts"), indexContent);
     } else if (answers.socket && !answers.typescript) {
+        console.log("Socket.io22");
         await fs.copy(path.join(TEMPLATE_DIR, "JS/features/socket/src"), srcPath);
         await injectCode(path.join(srcPath, "index.js"), {
             import: `import { initSocket } from "./socket/index.js";\nimport { createServer } from "http";`,
-            init: `const httpServer = createServer(app);\ninitSocket(httpServer);\n// Override app.listen with httpServer.listen`
+            init: `const httpServer = createServer(app);\ninitSocket(httpServer);\n`
         });
 
         // We need to change app.listen to httpServer.listen in index.ts
@@ -98,17 +100,17 @@ export async function handleFeatures(projectPath, answers) {
     // }
 
     // Microservices
-    if (answers.microservice) {
-        await fs.ensureDir(path.join(srcPath, "micro-services"));
+    // if (answers.microservice) {
+    //     await fs.ensureDir(path.join(srcPath, "micro-services"));
 
-        if (answers.emailMicroservice) {
-            await fs.copy(path.join(TEMPLATE_DIR, answers.typescript ? "TS/features/micro-services/email" : "JS/features/micro-services/email"), path.join(srcPath, "micro-services/email"));
-        }
+    //     if (answers.emailMicroservice) {
+    //         await fs.copy(path.join(TEMPLATE_DIR, answers.typescript ? "TS/features/micro-services/email" : "JS/features/micro-services/email"), path.join(srcPath, "micro-services/email"));
+    //     }
 
-        if (answers.cronMicroservice) {
-            await fs.copy(path.join(TEMPLATE_DIR, answers.typescript ? "TS/features/micro-services/cron" : "JS/features/micro-services/cron"), path.join(srcPath, "micro-services/cron"));
-        }
-    }
+    //     if (answers.cronMicroservice) {
+    //         await fs.copy(path.join(TEMPLATE_DIR, answers.typescript ? "TS/features/micro-services/cron" : "JS/features/micro-services/cron"), path.join(srcPath, "micro-services/cron"));
+    //     }
+    // }
 }
 
 export const selectTemplate = (answers) => {

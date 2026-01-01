@@ -10,7 +10,7 @@ export async function askQuestions() {
                 if (/^([a-z0-9\-\_\.]+)$/.test(input)) return true;
                 return "Project name may only include lowercase letters, numbers, dashes, and underscores.";
             }
-        },
+    },
         {
             type: "confirm",
             name: "typescript",
@@ -27,7 +27,7 @@ export async function askQuestions() {
             type: "list",
             name: "mongoORM",
             message: "MongoDB detected — choose ORM:",
-            choices: ["Prisma", "Drizzle", "None"],
+            choices: ["None", "Prisma", "Drizzle"],
         },
         {
             type: "confirm",
@@ -41,12 +41,12 @@ export async function askQuestions() {
             message: "Would you like to use GraphQL?",
             default: false
         },
-        {
-            type: "confirm",
-            name: "microservice",
-            message: "Would you like to use microservices?",
-            default: false
-        }
+        // {
+        //     type: "confirm",
+        //     name: "microservice",
+        //     message: "Would you like to use microservices?",
+        //     default: false
+        // }
     ]);
     return answers;
 }

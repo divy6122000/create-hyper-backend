@@ -15,8 +15,16 @@ export class AuthController {
     static async login(req, res, next) {
         try {
             const { email, password } = req.body;
-            const token = await AuthService.login({ email, password });
-            return sendSuccess(res, 200, "User logged in successfully", token);
+            const { user, token } = await AuthService.login({ email, password });
+            return sendSuccess(res, 200, "User logged in successfully", { user, token });
+        } catch (error) {
+            next(error);
+        }
+    }
+    
+    static async logout(req, res, next) {
+        try {
+            return sendSuccess(res, 200, "User logged out successfully");
         } catch (error) {
             next(error);
         }

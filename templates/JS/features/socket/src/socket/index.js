@@ -1,9 +1,8 @@
 import { Server as SocketIOServer } from "socket.io";
-import { Server as HttpServer } from "http";
 import { logger } from "../utils/logger.js";
 import chalk from "chalk";
 
-export const initSocket = (server: HttpServer) => {
+export const initSocket = (server) => {
     const io = new SocketIOServer(server, {
         cors: {
             origin: "*",

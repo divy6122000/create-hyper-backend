@@ -27,8 +27,11 @@ export async function updatePackageJson(filePath, answers) {
 
     // GraphQL Dependencies
     if (answers.graphql) {
+        pkg.dependencies["@as-integrations/express5"] = "^1.1.2";
+        pkg.dependencies["@graphql-tools/merge"] = "^9.1.6";
         pkg.dependencies["@apollo/server"] = "^5.2.0";
         pkg.dependencies["graphql"] = "^16.12.0";
+        pkg.dependencies["graphql-tag"] = "^2.12.6";
     }
 
     // Socket.io Dependencies

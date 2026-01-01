@@ -7,7 +7,9 @@ import chalk from "chalk";
 const PORT = config.PORT || 3000;
 
 // [INIT_SECTION]
-app.listen(PORT, () => {
+
+
+httpServer.listen(PORT, () => {
     logger.info(chalk.green(`🚀 Server running on port ${PORT}`));
     logger.info(chalk.blue(`👉 http://localhost:${PORT}`));
 });

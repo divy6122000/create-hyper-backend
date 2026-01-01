@@ -21,7 +21,7 @@ async function createProject(answers) {
 
         console.log(chalk.blue(`\n📁 Creating project: ${answers.projectName}...`));
         await fs.ensureDir(projectPath);
-        
+
 
         // 1. Copy Base Template (Unified Structure)
         // if (answers.typescript) {
@@ -32,13 +32,13 @@ async function createProject(answers) {
 
         const template = selectTemplate(answers);
         await fs.copy(path.join(TEMPLATE_DIR, template), projectPath);
-        
+
         // create a .gitignore file
         fs.writeFileSync(path.join(projectPath, ".gitignore"), GITIGNORE);
-        
+
         // 2. Handle Features
         await handleFeatures(projectPath, answers);
-        
+
         // 3. Update package.json
         await updatePackageJson(path.join(projectPath, "package.json"), answers);
 
@@ -54,10 +54,11 @@ async function createProject(answers) {
         console.log(chalk.white(`  npm run dev\n`));
 
         const srcPath = path.join(projectPath, "src");
-        let indexContent = await fs.readFile(path.join(srcPath, "index.js"), "utf-8");
+        const fileName = answers.typescript ? "index.ts" : "index.js";
+        let indexContent = await fs.readFile(path.join(srcPath, fileName), "utf-8");
         indexContent = indexContent.replace("// [IMPORT_SECTION]", "");
         indexContent = indexContent.replace("// [INIT_SECTION]", "");
-        await fs.writeFile(path.join(srcPath, "index.js"), indexContent);
+        await fs.writeFile(path.join(srcPath, fileName), indexContent);
 
     } catch (error) {
         console.error(chalk.red("❌ Error creating project:"), error);

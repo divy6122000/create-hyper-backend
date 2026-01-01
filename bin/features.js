@@ -41,9 +41,10 @@ export async function handleFeatures(projectPath, answers) {
         });
     }
 
-    // Socket.io
+
+
     if (answers.socket && answers.typescript) {
-        console.log("Socket.io11");
+        console.log("socket11")
         await fs.copy(path.join(TEMPLATE_DIR, "TS/features/socket/src"), srcPath);
         await injectCode(path.join(srcPath, "index.ts"), {
             import: `import { initSocket } from "./socket/index.js";\nimport { createServer } from "http";`,
@@ -52,10 +53,10 @@ export async function handleFeatures(projectPath, answers) {
 
         // We need to change app.listen to httpServer.listen in index.ts
         let indexContent = await fs.readFile(path.join(srcPath, "index.ts"), "utf-8");
-        indexContent = indexContent.replace("app.listen(PORT", "httpServer.listen(PORT");
+        indexContent = indexContent.replace("app.listen(config.PORT", "httpServer.listen(config.PORT");
         await fs.writeFile(path.join(srcPath, "index.ts"), indexContent);
     } else if (answers.socket && !answers.typescript) {
-        console.log("Socket.io22");
+        console.log("socket22");
         await fs.copy(path.join(TEMPLATE_DIR, "JS/features/socket/src"), srcPath);
         await injectCode(path.join(srcPath, "index.js"), {
             import: `import { initSocket } from "./socket/index.js";\nimport { createServer } from "http";`,
@@ -64,12 +65,12 @@ export async function handleFeatures(projectPath, answers) {
 
         // We need to change app.listen to httpServer.listen in index.ts
         let indexContent = await fs.readFile(path.join(srcPath, "index.js"), "utf-8");
-        indexContent = indexContent.replace("app.listen(PORT", "httpServer.listen(PORT");
+        indexContent = indexContent.replace("app.listen(config.PORT", "httpServer.listen(config.PORT");
         await fs.writeFile(path.join(srcPath, "index.js"), indexContent);
     }
 
     // Prisma
-    
+
     // if (answers.database !== "MongoDB" || answers.mongoORM === "Prisma") {
     //     await fs.copy(path.join(TEMPLATE_DIR, answers.typescript ? "TS/features/prisma" : "JS/features/prisma"), projectPath);
 

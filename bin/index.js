@@ -53,6 +53,12 @@ async function createProject(answers) {
         }
         console.log(chalk.white(`  npm run dev\n`));
 
+        const srcPath = path.join(projectPath, "src");
+        let indexContent = await fs.readFile(path.join(srcPath, "index.js"), "utf-8");
+        indexContent = indexContent.replace("// [IMPORT_SECTION]", "");
+        indexContent = indexContent.replace("// [INIT_SECTION]", "");
+        await fs.writeFile(path.join(srcPath, "index.js"), indexContent);
+
     } catch (error) {
         console.error(chalk.red("❌ Error creating project:"), error);
         process.exit(1);
